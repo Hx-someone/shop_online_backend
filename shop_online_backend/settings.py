@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'simplepro',
     'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'import_export',
     'goods',
     'trade',
     'users',
@@ -56,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 加入simplepro的中间件
+    'simplepro.middlewares.SimpleMiddleware'
 ]
 
 ROOT_URLCONF = 'shop_online_backend.urls'
@@ -78,6 +82,18 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
 }
 
+# simpleui的设置
+# 显示title
+SIMPLEUI_HOME_TITLE = '超市后端设置'
+# 使用数据分析
+SIMPLEUI_ANALYSIS = True
+# 显示最近动作
+SIMPLEUI_HOME_ACTION = True
+# 服务器信息
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+# 快速操作
+SIMPLEUI_HOME_QUICK = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -95,10 +111,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'shop_online_backend.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
     'default': {

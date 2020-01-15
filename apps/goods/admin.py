@@ -1,35 +1,30 @@
 from django.contrib import admin
 from .models import *
-# Register your models here.
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 
-class GoodsCategoryAllAdmin(admin.ModelAdmin):
-    pass
+class GoodsCategoryAllResource(resources.ModelResource):
+    class Meta:
+        model = GoodsCategoryAll
+
+
+@admin.register(GoodsCategoryAll)
+class ProxyAdmin(ImportExportModelAdmin):
+    resource_class = GoodsCategoryAllResource
+
+
+class GoodImageInline(admin.StackedInline):
+    model = GoodsImage
+    extra = 1   #默认是3个
 
 
 class GoodsAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['category','name','fav_num','goods_num','history_price','shop_price','goods_front_image','Specifications','is_new','is_hot','is_normal','add_time']
+    search_fields = ['name','fav_num','goods_num','history_price','shop_price']
+    inlines = (GoodImageInline,)
 
 
-class GoodsImageAdmin(admin.ModelAdmin):
-    pass
-
-
-class BannerAdmin(admin.ModelAdmin):
-    pass
-
-
-class BannerIndexAdmin(admin.ModelAdmin):
-    pass
-
-
-class GoodsCategoryBrandAdmin(admin.ModelAdmin):
-    pass
-
-
-admin.site.register(GoodsCategoryAll,GoodsCategoryAllAdmin)
 admin.site.register(Goods,GoodsAdmin)
-admin.site.register(GoodsImage,GoodsImageAdmin)
-admin.site.register(Banner,BannerAdmin)
-admin.site.register(BannerIndex,BannerIndexAdmin)
-admin.site.register(GoodsCategoryBrand,GoodsCategoryBrandAdmin)
+admin.site.register(BannerIndex)
+admin.site.register(GoodsCategoryBrand)
