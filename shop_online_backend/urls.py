@@ -28,6 +28,7 @@ schema_view = get_schema_view(title='Pastebin API')
 router = DefaultRouter()
 router.register(r'banner',BannerListSet,base_name="bannerIndex")
 router.register(r'catelogy',CategoryViewSet,base_name="category")
+router.register(r'goods',GoodsViewSet,base_name="good")
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
