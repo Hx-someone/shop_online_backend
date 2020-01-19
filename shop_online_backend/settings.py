@@ -123,6 +123,16 @@ DATABASES = {
         'OPTIONS': {'init_command': 'SET storage_engine=INNODB;'}
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'shop_online',
+#         'USER': 'LY',
+#         'PASSWORD': 'LY-ly6602',
+#         'HOST': '39.106.12.6',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation

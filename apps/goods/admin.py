@@ -19,10 +19,15 @@ class GoodImageInline(admin.StackedInline):
     extra = 1   #默认是3个
 
 
+class Goodsspecification(admin.StackedInline):
+    model = Goodsspecification
+    extra = 1
+
+
 class GoodsAdmin(admin.ModelAdmin):
-    list_display = ['category','name','fav_num','goods_num','history_price','shop_price','goods_front_image','Specifications','is_new','is_hot','is_normal','add_time']
-    search_fields = ['name','fav_num','goods_num','history_price','shop_price']
-    inlines = (GoodImageInline,)
+    list_display = ['category','name','fav_num','goods_num','goods_front_image','is_new','is_hot','is_normal','add_time']
+    search_fields = ['name','fav_num','goods_num']
+    inlines = (GoodImageInline,Goodsspecification)
 
 
 admin.site.register(Goods,GoodsAdmin)
