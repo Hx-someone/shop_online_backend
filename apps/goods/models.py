@@ -72,7 +72,7 @@ class Goods(models.Model):
 
 class GoodsImage(models.Model):
     """
-    商品轮播图
+    商品轮播图   
     """
     goods = models.ForeignKey(Goods, verbose_name="商品",on_delete=True,related_name="images")
     image = models.ImageField(upload_to="goods/banner/", verbose_name="图片", null=True, blank=True)
