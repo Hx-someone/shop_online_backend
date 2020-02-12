@@ -49,9 +49,9 @@ class Goods(models.Model):
     """
     category = models.ForeignKey(GoodsCategoryAll, verbose_name="商品类目",on_delete=True,related_name="goods_catelogy")
     name = models.CharField(max_length=100, verbose_name="商品名")
-    sold_num = models.IntegerField(default=0, verbose_name="商品销售量")
-    fav_num = models.IntegerField(default=0, verbose_name="收藏数")
-    goods_num = models.IntegerField(default=0, verbose_name="库存数")
+    sold_num = models.IntegerField(default=100, verbose_name="商品销售量")
+    fav_num = models.IntegerField(default=100, verbose_name="收藏数")
+    goods_num = models.IntegerField(default=100, verbose_name="库存数")
     # history_price = models.FloatField(verbose_name="促销价格",blank=True,null=True)
     # shop_price = models.FloatField(default=0, verbose_name="当前价格")
     # Specifications=models.CharField(default='',verbose_name="商品规格",max_length=30)
@@ -72,7 +72,7 @@ class Goods(models.Model):
 
 class GoodsImage(models.Model):
     """
-    商品轮播图   
+    商品轮播图
     """
     goods = models.ForeignKey(Goods, verbose_name="商品",on_delete=True,related_name="images")
     image = models.ImageField(upload_to="goods/banner/", verbose_name="图片", null=True, blank=True)
