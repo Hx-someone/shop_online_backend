@@ -21,6 +21,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
 from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import *
+from users.views import *
 from rest_framework.schemas import get_schema_view
 
 schema_view = get_schema_view(title='Pastebin API')
@@ -29,6 +30,8 @@ router = DefaultRouter()
 router.register(r'banner',BannerListSet,base_name="bannerIndex")
 router.register(r'catelogy',CategoryViewSet,base_name="category")
 router.register(r'goods',GoodsViewSet,base_name="good")
+router.register(r'codes',SmsCodeViewset,base_name="codes")
+router.register(r'user',UserViewset,base_name='user')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
