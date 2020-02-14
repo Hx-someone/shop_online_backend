@@ -2,8 +2,16 @@ from .serializers import *
 from rest_framework import viewsets
 from rest_framework import mixins
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import filters
 from .filters import *
+
+
+class GoodsPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    page_size_query_param = "pages"
+    max_page_size = 100
 
 
 class BannerListSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -31,6 +39,7 @@ class GoodsViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.Gene
     """
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
+    pagination_class = GoodsPagination
     filter_backends = (DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter)
     #引入filter文件里面的类，filter里面也就是过滤的字段
     filterset_class = GoodsFilter
