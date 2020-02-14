@@ -44,6 +44,6 @@ class GoodsViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.Gene
     #引入filter文件里面的类，filter里面也就是过滤的字段
     filterset_class = GoodsFilter
     # 模糊检索的字段
-    search_fields = ['name', 'goods_brief','=id']
+    search_fields = ['name']
     # 排序的字段
     ordering_fields = ['sold_num', 'shop_price']
