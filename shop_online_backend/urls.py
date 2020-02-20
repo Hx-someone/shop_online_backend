@@ -22,6 +22,7 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import *
 from users.views import *
+from user_operation.views import *
 from rest_framework.schemas import get_schema_view
 
 schema_view = get_schema_view(title='Pastebin API')
@@ -32,6 +33,8 @@ router.register(r'catelogy',CategoryViewSet,base_name="category")
 router.register(r'goods',GoodsViewSet,base_name="good")
 router.register(r'codes',SmsCodeViewset,base_name="codes")
 router.register(r'user',UserViewset,base_name='user')
+router.register(r'userfavs',UserFavViewset,base_name='userfavs')
+router.register(r'address', AddressViewset, base_name="address")
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
