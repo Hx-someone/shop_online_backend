@@ -31,14 +31,13 @@ class OrderInfo(models.Model):
     订单
     """
     ORDER_STATUS = (
-        ("TRADE_SUCCESS", "成功"),
         ("TRADE_CLOSED", "超时关闭"),
-        ("WAIT_BUYER_PAY", "交易创建"),
-        ("TRADE_FINISHED", "交易结束"),
         ("paying", "待支付"),
         ("refunding", "待退款"),
         ("refund", "退款成功"),
-        ("writing","待评价")
+        ("loading","等待配送"),
+        ("writing","待评价"),
+        ("TRADE_SUCCESS", "订单已完成"),
     )
     # ORDER_STATUS=(
     #     ("success","成功"),
@@ -57,10 +56,11 @@ class OrderInfo(models.Model):
     trade_no = models.CharField(max_length=100, unique=True, null=True, blank=True, verbose_name="交易号")
 
     pay_status = models.CharField(choices=ORDER_STATUS, default="paying", max_length=30, verbose_name="订单状态")
-    post_script = models.CharField(max_length=200, verbose_name="订单留言",null=True,blank=True)
+    # post_script = models.CharField(max_length=200, verbose_name="订单留言",null=True,blank=True)
     order_mount = models.FloatField(default=0.0, verbose_name="订单金额")
     pay_time = models.DateTimeField(null=True, blank=True, verbose_name="支付时间")
 
+    takegoods_status=models.CharField(choices=(('online','线上'),('self_mention','线下自提')),default="online",max_length=30,verbose_name='提取方式')
     # 用户信息
     address = models.CharField(max_length=100, default="", verbose_name="收货地址")
     signer_name = models.CharField(max_length=20, default="", verbose_name="签收人")
