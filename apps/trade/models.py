@@ -31,13 +31,11 @@ class OrderInfo(models.Model):
     订单
     """
     ORDER_STATUS = (
-        ("TRADE_CLOSED", "超时关闭"),
         ("paying", "待支付"),
-        ("refunding", "待退款"),
-        ("refund", "退款成功"),
-        ("loading","等待配送"),
-        ("writing","待评价"),
-        ("TRADE_SUCCESS", "订单已完成"),
+        ("TRADE_SUCCESS", "成功"),
+        ("TRADE_CLOSED", "超时关闭"),
+        ("WAIT_BUYER_PAY", "交易创建"),
+        ("TRADE_FINISHED", "交易结束"),
     )
     # ORDER_STATUS=(
     #     ("success","成功"),

@@ -48,7 +48,7 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
         saved_record = serializer.save()
         nums = saved_record.nums-existed_nums
         goods = saved_record.goods
-        goods.goods_num -= nums
+        goods.goods_num += nums
         goods.save()
 
     def get_serializer_class(self):
@@ -102,15 +102,12 @@ from rest_framework.views import APIView
 from utils.alipay import AliPay
 from shop_online_backend.settings import ali_pub_key_path, private_key_path
 from rest_framework.response import Response
+from django.shortcuts import  redirect, HttpResponse
+from django.http import HttpResponseRedirect
+
 
 class AlipayView(APIView):
-    # 这个是订单信息中的支付字段，这个是由支付宝返回的一个字段，配置好公钥秘钥之后就可以发送一个唯一的订单号，然后返回一个支付宝返回的唯一值
     def get(self, request):
-        """
-        处理支付宝的return_url返回
-        :param request:
-        :return:
-        """
         processed_dict = {}
         for key, value in request.GET.items():
             processed_dict[key] = value
@@ -119,11 +116,11 @@ class AlipayView(APIView):
 
         alipay = AliPay(
             appid="2016101200666258",
-            app_notify_url="http://101.200.180.194:8000/alipay/return/",
+            app_notify_url="http://127.0.0.1:8000/alipay/return/",
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://101.200.180.194:8000/alipay/return/"
+            return_url="http://127.0.0.1:8000/alipay/return/"
         )
 
         verify_re = alipay.verify(processed_dict, sign)
@@ -131,7 +128,7 @@ class AlipayView(APIView):
         if verify_re is True:
             order_sn = processed_dict.get('out_trade_no', None)
             trade_no = processed_dict.get('trade_no', None)
-            trade_status = processed_dict.get('trade_status', None)
+            trade_status = processed_dict.get('trade_status', 'TRADE_SUCCESS')
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
@@ -140,19 +137,11 @@ class AlipayView(APIView):
                 existed_order.pay_time = datetime.now()
                 existed_order.save()
 
-            response = redirect("index")
-            response.set_cookie("nextPath","pay", max_age=3)
-            return response
+            return HttpResponseRedirect('http://127.0.0.1:8080/userOrder')
         else:
-            response = redirect("index")
-            return response
+            return HttpResponse('支付失败')
 
     def post(self, request):
-        """
-        处理支付宝的notify_url
-        :param request:
-        :return:
-        """
         processed_dict = {}
         for key, value in request.POST.items():
             processed_dict[key] = value
@@ -161,21 +150,22 @@ class AlipayView(APIView):
 
         alipay = AliPay(
             appid="2016101200666258",
-            app_notify_url="http://localhost:8080/userOrder",
+            app_notify_url="http://127.0.0.1:8000/alipay/return/",
             app_private_key_path=private_key_path,
-            alipay_public_key_path=ali_pub_key_path,
+            alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://localhost:8080/userOrder"
+            return_url="http://127.0.0.1:8000/alipay/return/"
         )
 
         verify_re = alipay.verify(processed_dict, sign)
 
         if verify_re is True:
-            order_sn = processed_dict.get('out_trade_no', None)
-            trade_no = processed_dict.get('trade_no', None)
-            trade_status = processed_dict.get('trade_status', None)
-
+            order_sn = processed_dict.get('out_trade_no', None)  # 商户网站唯一订单号
+            trade_no = processed_dict.get('trade_no', None)  # 支付宝交易流水号
+            trade_status = processed_dict.get('trade_status', 'paying')  # 支付宝订单状态
+            # 查询本地是否有此订单
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
+            # 更新订单状态
             for existed_order in existed_orders:
                 order_goods = existed_order.goods.all()
                 for order_good in order_goods:

@@ -25,8 +25,8 @@ class Goodsspecification(admin.StackedInline):
 
 
 class GoodsAdmin(admin.ModelAdmin):
-    list_display = ['category','name','fav_num','goods_num','is_new','is_hot','is_normal','add_time']
-    search_fields = ['name']
+    list_display = ['category','name','fav_num','goods_num','sold_num','is_new','is_hot','is_normal','add_time']
+    search_fields = ['name','is_new','is_hot','is_normal']
     inlines = (GoodImageInline,Goodsspecification)
 
 
