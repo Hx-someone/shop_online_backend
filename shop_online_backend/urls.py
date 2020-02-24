@@ -37,7 +37,7 @@ router.register(r'user',UserViewset,base_name='user')
 router.register(r'userfavs',UserFavViewset,base_name='userfavs')
 router.register(r'address', AddressViewset, base_name="address")
 router.register(r'shopcarts', ShoppingCartViewset, base_name="shopcarts")
-# router.register(r'orders', OrderViewset, base_name="orders")
+router.register(r'orders', OrderViewset, base_name="orders")
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
