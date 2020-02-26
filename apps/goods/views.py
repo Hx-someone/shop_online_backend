@@ -46,4 +46,4 @@ class GoodsViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.Gene
     # 模糊检索的字段
     search_fields = ['name']
     # 排序的字段
-    ordering_fields = ['sold_num', 'shop_price']
+    ordering_fields = ['sold_num','shop_price']

@@ -12,7 +12,7 @@ class ShopCartDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShoppingCart
-        fields = ("goods", "nums", "selected")
+        fields = ("goods", "nums")
 
 
 class ShopCartSerializer(serializers.Serializer):
@@ -29,15 +29,15 @@ class ShopCartSerializer(serializers.Serializer):
                                     })
 
     goods = serializers.PrimaryKeyRelatedField(required=True, queryset=Goods.objects.all())
-    selected = serializers.BooleanField(required=True)
+    # selected = serializers.BooleanField(required=True)
 
     def create(self, validated_data):
         user = self.context["request"].user
         nums = validated_data["nums"]
         goods = validated_data["goods"]
-        selected = validated_data['selected']
+        # selected = validated_data['selected']
 
-        existed = ShoppingCart.objects.filter(user=user, goods=goods, selected=selected)
+        existed = ShoppingCart.objects.filter(user=user, goods=goods)
 
         if existed:
             existed = existed[0]
@@ -51,7 +51,7 @@ class ShopCartSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         # 修改商品数量
         instance.nums = validated_data["nums"]
-        instance.selected = validated_data['selected']
+        # instance.selected = validated_data['selected']
         instance.save()
         return instance
 

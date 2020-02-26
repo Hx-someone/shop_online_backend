@@ -14,7 +14,7 @@ class ShoppingCart(models.Model):
     user = models.ForeignKey(User, verbose_name="用户",on_delete=models.CASCADE)
     goods = models.ForeignKey(Goods, verbose_name="商品",on_delete=models.CASCADE)
     nums = models.IntegerField(default=0, verbose_name="购买数量")
-    selected = models.BooleanField(default=False,verbose_name='是否被选中')
+    # selected = models.BooleanField(default=False,verbose_name='是否被选中')
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:
@@ -36,6 +36,8 @@ class OrderInfo(models.Model):
         ("TRADE_CLOSED", "超时关闭"),
         ("WAIT_BUYER_PAY", "交易创建"),
         ("TRADE_FINISHED", "交易结束"),
+        ("refunding", "退款申请中"),
+        ("fefunding","退款成功，交易结束")
     )
     # ORDER_STATUS=(
     #     ("success","成功"),

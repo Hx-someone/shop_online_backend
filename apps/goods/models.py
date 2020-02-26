@@ -52,7 +52,7 @@ class Goods(models.Model):
     fav_num = models.IntegerField(default=100, verbose_name="收藏数")
     goods_num = models.IntegerField(default=100, verbose_name="库存数")
     # history_price = models.FloatField(verbose_name="促销价格",blank=True,null=True)
-    # shop_price = models.FloatField(default=0, verbose_name="当前价格")
+    shop_price = models.FloatField(default=0, verbose_name="当前价格")
     # Specifications=models.CharField(default='',verbose_name="商品规格",max_length=30)
     storage_type = models.CharField(default="常温",verbose_name="存储方式",max_length=30)
     goods_brief = models.TextField(max_length=500, verbose_name="商品描述")
