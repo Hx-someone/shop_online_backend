@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import *
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+admin.site.site_header = "多购后台管理系统"
+admin.site.site_title = '多购后台管理系统'
 
 
 class GoodsCategoryAllResource(resources.ModelResource):
