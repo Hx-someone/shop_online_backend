@@ -120,7 +120,7 @@ class AlipayView(APIView):
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://127.0.0.1:8000/alipay/return/"
+            return_url="http://127.0.0.1:8000/"
         )
 
         verify_re = alipay.verify(processed_dict, sign)
@@ -156,11 +156,11 @@ class AlipayView(APIView):
 
         alipay = AliPay(
             appid="2016101200666258",
-            app_notify_url="http://127.0.0.1:8000/alipay/return/",
+            app_notify_url="http://127.0.0.1:8000/",
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://127.0.0.1:8000/alipay/return/"
+            return_url="http://127.0.0.1:8000/"
         )
 
         verify_re = alipay.verify(processed_dict, sign)
