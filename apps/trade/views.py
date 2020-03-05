@@ -116,11 +116,11 @@ class AlipayView(APIView):
 
         alipay = AliPay(
             appid="2016101200666258",
-            app_notify_url="http://127.0.0.1:8000/",
+            app_notify_url="http://127.0.0.1:8000/alipay/return/",
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://127.0.0.1:8000/"
+            return_url="http://127.0.0.1:8000/alipay/return/"
         )
 
         verify_re = alipay.verify(processed_dict, sign)
@@ -128,7 +128,7 @@ class AlipayView(APIView):
         if verify_re is True:
             order_sn = processed_dict.get('out_trade_no', None)
             trade_no = processed_dict.get('trade_no', None)
-            trade_status = processed_dict.get('trade_status', 'TRADE_SUCCESS')
+            trade_status = processed_dict.get('trade_status',None)
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
@@ -154,13 +154,14 @@ class AlipayView(APIView):
 
         sign = processed_dict.pop("sign", None)
 
+
         alipay = AliPay(
             appid="2016101200666258",
-            app_notify_url="http://127.0.0.1:8000/",
+            app_notify_url="http://127.0.0.1:8000/alipay/return/",
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
             debug=True,  # 默认False,
-            return_url="http://127.0.0.1:8000/"
+            return_url="http://127.0.0.1:8000/alipay/return/"
         )
 
         verify_re = alipay.verify(processed_dict, sign)
