@@ -1,5 +1,17 @@
 from rest_framework import serializers
 from .models import *
+from users.serializers import UserProfileSerializer
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    """
+        这个是查看评论信息序列化
+    """
+    user = UserProfileSerializer(many=False)
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
 
 
 class GoodsImageSerializer(serializers.ModelSerializer):
@@ -9,6 +21,14 @@ class GoodsImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = GoodsImage
         fields = "__all__"
+
+
+class AllOrderGoodSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Goods
+        fields = ('category',)
 
 
 class GoodsspecificationSerializer(serializers.ModelSerializer):
@@ -26,7 +46,8 @@ class GoodsSerializer(serializers.ModelSerializer):
     """
     images = GoodsImageSerializer(many=True,read_only=True)
     specification =GoodsspecificationSerializer(many=True,read_only=True)
-    
+    comment = CommentSerializer(many=True)
+
     class Meta:
         model = Goods
         fields = "__all__"

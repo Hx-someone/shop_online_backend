@@ -5,7 +5,7 @@ from .models import ShoppingCart, OrderInfo, OrderGoods
 from goods.serializers import GoodsSerializer
 from utils.alipay import AliPay
 from shop_online_backend.settings import private_key_path, ali_pub_key_path
-
+from goods.serializers import AllOrderGoodSerializer
 
 class ShopCartDetailSerializer(serializers.ModelSerializer):
     goods = GoodsSerializer(many=False, read_only=True)
@@ -144,3 +144,18 @@ class OrderSerializer(serializers.ModelSerializer):
         model = OrderInfo
         fields = "__all__"
 
+class AllOrderGoodsSerialzier(serializers.ModelSerializer):
+    # 这里是订单列表信息
+    goods = AllOrderGoodSerializer(many=False)
+
+    class Meta:
+        model = OrderGoods
+        fields = ('goods',)
+
+
+class AllOrderSerializer(serializers.ModelSerializer):
+    goods = AllOrderGoodsSerialzier(many=True)
+
+    class Meta:
+        model = OrderInfo
+        fields =('goods','order_mount','user','add_time')

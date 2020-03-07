@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'trade',
     'users',
     'user_operation',
+    'information',
     'corsheaders',
-    'guardian',
     'rest_framework.authtoken'
 ]
 

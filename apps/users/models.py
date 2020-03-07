@@ -8,9 +8,12 @@ class UserProfile(AbstractUser):
     """
         用户表，是继承Django默认的user表，再做出修改
     """
+    status = (('primary','初级会员'),('senior','高级会员'))
     name=models.CharField(max_length=30,null=True,blank=True,verbose_name="昵称")
+    member_status = models.CharField(max_length=30,choices=status,default='primary',verbose_name="会员等级")
     gender=models.CharField(max_length=6,choices=(("male","男"),("female","女")),default="male",verbose_name="性别")
     integral=models.IntegerField(default=0,verbose_name="积分")
+    isfaith = models.BooleanField(default=True,verbose_name='是否违约')
     mobile=models.CharField(max_length=11,verbose_name="电话",null=True,blank=True)
 
     class Meta:

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import mixins
-from .models import *
+from users.serializers import UserMemberSerializer
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -63,3 +63,56 @@ class AddressViewset(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return UserAddress.objects.filter(user=self.request.user)
+
+
+class CommonSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
+    """
+    个人评论表管理
+    list:
+        查看自己评论过的信息
+    create:
+        添加商品评论
+    delete:
+        删除商品评论
+    """
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    authentication_classes = (JSONWebTokenAuthentication,SessionAuthentication )
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        return Comment.objects.filter(user=self.request.user)
+
+
+class UserMemberViewSet(mixins.ListModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+    """
+        用户的会员信息表
+    """
+    serializer_class = UserMemberSerializer
+    queryset = User.objects.all()
+    authentication_classes = (JSONWebTokenAuthentication,SessionAuthentication )
+
+    def get_queryset(self):
+        """
+            get方法只显示自己的信息
+        :return:
+        """
+        return User.objects.filter(username=self.request.user)
+
+    def get_object(self):
+        """
+            无论参数是什么都只返回自己的信息
+        :return: self.user
+        """
+        return self.request.user
+
+    def get_permissions(self):
+        """
+            如果是要修改就必须要登录，如果是要创建就返回为空
+        :return:
+        """
+        if self.action == "retrieve":
+            return [IsAuthenticated()]
+        elif self.action == "create":
+            return []
+
+        return []

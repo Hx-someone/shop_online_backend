@@ -2,7 +2,6 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
 from goods.models import Goods
-from smart_selects.db_fields import GroupedForeignKey
 User=get_user_model()
 # Create your models here.
 

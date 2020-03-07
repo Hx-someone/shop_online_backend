@@ -23,6 +23,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import *
 from users.views import *
 from trade.views import *
+from information.views import *
 from user_operation.views import *
 from rest_framework.schemas import get_schema_view
 
@@ -38,6 +39,11 @@ router.register(r'userfavs',UserFavViewset,base_name='userfavs')
 router.register(r'address', AddressViewset, base_name="address")
 router.register(r'shopcarts', ShoppingCartViewset, base_name="shopcarts")
 router.register(r'orders', OrderViewset, base_name="orders")
+router.register(r'common',CommonSet,base_name="common")
+router.register(r'member',UserMemberViewSet,base_name='member')
+router.register(r'alluser',UserProfileViewset,base_name="alluser")
+router.register(r'allorder',AllOrderViewSets,base_name='allorder')
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

@@ -5,11 +5,38 @@ from datetime import datetime
 from datetime import timedelta
 from rest_framework.validators import UniqueValidator
 
-from .models import VerifyCode
+from .models import VerifyCode,UserProfile
 
 from shop_online_backend.settings import REGEX_MOBILE
 
 User = get_user_model()
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """
+    这个是序列化用户的表
+    """
+    class Meta:
+        model = UserProfile
+        fields = ('id','member_status','username')
+
+
+class UserMemberSerializer(serializers.ModelSerializer):
+    """
+    用户会员序列化类
+    """
+    """
+        这个是查看评论信息序列化
+    """
+    # username = serializers.HiddenField(
+    #     default=serializers.CurrentUserDefault()
+    # )
+    # add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
+    username = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id','member_status','username')
 
 
 class SmsSerializer(serializers.Serializer):

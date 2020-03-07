@@ -118,3 +118,18 @@ class BannerIndex(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+    goods = models.ForeignKey(Goods,verbose_name='商品',on_delete=True,related_name='comment')
+    user = models.ForeignKey(UserProfile,verbose_name="用户",on_delete=True,related_name='user')
+    commenttext = models.CharField(max_length=200,verbose_name="商品评论")
+    score = models.IntegerField(default=5,verbose_name='商品评分')
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+
+    class Meta:
+        verbose_name = '评论'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.goods.name

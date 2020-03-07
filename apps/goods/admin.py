@@ -6,6 +6,11 @@ admin.site.site_header = "多购后台管理系统"
 admin.site.site_title = '多购后台管理系统'
 
 
+class CommentAdmin(admin.StackedInline):
+    model = Comment
+    extra = 1   #默认是3个
+
+
 class GoodsCategoryAllResource(resources.ModelResource):
     class Meta:
         model = GoodsCategoryAll
@@ -29,7 +34,7 @@ class Goodsspecification(admin.StackedInline):
 class GoodsAdmin(admin.ModelAdmin):
     list_display = ['category','name','fav_num','goods_num','sold_num','is_new','is_hot','is_normal','add_time']
     search_fields = ['name','is_new','is_hot','is_normal']
-    inlines = (GoodImageInline,Goodsspecification)
+    inlines = (GoodImageInline,Goodsspecification,CommentAdmin)
 
 
 admin.site.register(Goods,GoodsAdmin)

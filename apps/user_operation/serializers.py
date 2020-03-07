@@ -44,3 +44,32 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAddress
         fields = ("id", "user", "province", "city", "district", "address", "signer_name", "add_time", "signer_mobile")
+
+
+class Integral_calculationSeSerializer(serializers.ModelSerializer):
+    """
+        积分系统的序列化
+    """
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
+
+    class Meta:
+        model = integral_calculation
+        flelds = "__all__"
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    """
+        这个是查看评论信息序列化
+    """
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    # goods = GoodsSerializer(many=False)
+    add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
