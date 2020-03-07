@@ -94,7 +94,6 @@ class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveMode
 
         return UserDetailSerializer
 
-    # permission_classes = (permissions.IsAuthenticated, )
     def get_permissions(self):
         if self.action == "retrieve":
             return [permissions.IsAuthenticated()]

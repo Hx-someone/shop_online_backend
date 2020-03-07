@@ -8,6 +8,7 @@ class CommentSerializer(serializers.ModelSerializer):
         这个是查看评论信息序列化
     """
     user = UserProfileSerializer(many=False)
+    add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
 
     class Meta:
         model = Comment
@@ -18,6 +19,8 @@ class GoodsImageSerializer(serializers.ModelSerializer):
     """
     商品的轮播图信息
     """
+    add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
+
     class Meta:
         model = GoodsImage
         fields = "__all__"
@@ -53,6 +56,17 @@ class GoodsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class GoodsBaseSerializer(serializers.ModelSerializer):
+    """
+        商品的基本信息，用于评论信息的基本序列化
+    """
+    images = GoodsImageSerializer(many=True,read_only=True)
+
+    class Meta:
+        model = Goods
+        fields= ('name','images')
+
+
 class BannerIndexSerializer(serializers.ModelSerializer):
     """
         首页的轮播图
@@ -71,4 +85,3 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = GoodsCategoryAll
         fields = "__all__"
-        # fields = "__all__"

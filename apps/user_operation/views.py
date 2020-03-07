@@ -82,6 +82,11 @@ class CommonSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.DestroyMode
     def get_queryset(self):
         return Comment.objects.filter(user=self.request.user)
 
+    def get_serializer_class(self):
+        if self.action == "list":
+            return CommentDetailSerializer
+        return CommentSerializer
+
 
 class UserMemberViewSet(mixins.ListModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
     """

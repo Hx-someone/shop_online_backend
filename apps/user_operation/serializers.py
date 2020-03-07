@@ -67,7 +67,24 @@ class CommentSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
-    # goods = GoodsSerializer(many=False)
+
+    # goods = GoodsSerializer(many=False) #这个字段是为了显示商品的名字和图片信息，只需要goods的包含这两个字段的序列化即可
+    add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
+
+
+class CommentDetailSerializer(serializers.ModelSerializer):
+    """
+        这个是查看评论信息序列化
+    """
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
+    goods = GoodsSerializer(many=False) #这个字段是为了显示商品的名字和图片信息，只需要goods的包含这两个字段的序列化即可
     add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
 
     class Meta:

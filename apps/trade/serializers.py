@@ -144,6 +144,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = OrderInfo
         fields = "__all__"
 
+
 class AllOrderGoodsSerialzier(serializers.ModelSerializer):
     # 这里是订单列表信息
     goods = AllOrderGoodSerializer(many=False)
