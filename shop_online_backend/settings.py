@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'users',
     'user_operation',
     'corsheaders',
+    'guardian',
     'rest_framework.authtoken'
 ]
 

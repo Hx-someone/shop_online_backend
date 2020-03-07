@@ -1,8 +1,8 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
-
 from goods.models import Goods
+from smart_selects.db_fields import GroupedForeignKey
 User=get_user_model()
 # Create your models here.
 
@@ -61,11 +61,14 @@ class OrderInfo(models.Model):
     pay_time = models.DateTimeField(null=True, blank=True, verbose_name="支付时间")
 
     takegoods_status=models.CharField(choices=(('online','线上'),('self_mention','线下自提')),default="online",max_length=30,verbose_name='提取方式')
+
+    gettime =  models.CharField(default='',max_length=100,verbose_name='提取时间')
     # 用户信息
     address = models.CharField(max_length=100, default="", verbose_name="收货地址")
     signer_name = models.CharField(max_length=20, default="", verbose_name="签收人")
     singer_mobile = models.CharField(max_length=11, verbose_name="联系电话")
 
+    operator = models.ForeignKey(User,verbose_name="订单配送人员",on_delete=True,related_name='operator',default='',null=True,blank=True)
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:
