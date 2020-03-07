@@ -8,7 +8,6 @@ admin.site.site_title = '多购后台管理系统'
 
 class CommentAdmin(admin.StackedInline):
     model = Comment
-    extra = 1   #默认是3个
 
 
 class GoodsCategoryAllResource(resources.ModelResource):

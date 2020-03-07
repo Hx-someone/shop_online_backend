@@ -38,17 +38,6 @@ class OrderInfo(models.Model):
         ("refunding", "退款申请中"),
         ("fefunding","退款成功，交易结束")
     )
-    # ORDER_STATUS=(
-    #     ("success","成功"),
-    #     ("cancel","取消"),
-    #     ("paying","待支付"),
-    #     ("refunding", "待退款"),
-    #     ("refund", "退款成功"),
-    # )
-    # PAY_TYPE=(
-    #     ("alipay","支付宝"),
-    #     ("wechat","微信")
-    # )
     user = models.ForeignKey(User, verbose_name="用户",on_delete=models.CASCADE)
     order_sn = models.CharField(max_length=30, null=True, blank=True, unique=True, verbose_name="订单号")
     #这个是支付宝支付时候的订单号
