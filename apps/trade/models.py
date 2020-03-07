@@ -32,11 +32,14 @@ class OrderInfo(models.Model):
     ORDER_STATUS = (
         ("paying", "待支付"),
         ("TRADE_SUCCESS", "成功"),
-        ("TRADE_CLOSED", "超时关闭"),
-        ("WAIT_BUYER_PAY", "交易创建"),
-        ("TRADE_FINISHED", "交易结束"),
+        # ("TRADE_CLOSED", "超时关闭"),
+        # ("WAIT_BUYER_PAY", "交易创建"),
         ("refunding", "退款申请中"),
-        ("fefunding","退款成功，交易结束")
+        ("fefunding","退款成功，交易结束"),
+        ("Picking","订单商品配货中"),
+        ("checkout","商品正在进行第二次检验"),
+        ("TRADE_FINISHED", "交易结束"),
+        ("Delivery","订单商品送货中")
     )
     user = models.ForeignKey(User, verbose_name="用户",on_delete=models.CASCADE)
     order_sn = models.CharField(max_length=30, null=True, blank=True, unique=True, verbose_name="订单号")

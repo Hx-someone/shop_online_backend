@@ -14,7 +14,7 @@ class OrderGoodsInline(admin.StackedInline):
 
 
 class OrderInfoAdmin(admin.ModelAdmin):
-    list_display = ['order_sn', 'order_mount', 'operator']
+    list_display = ['order_sn', 'order_mount', 'operator','pay_status']
     inlines = (OrderGoodsInline,)
 
     # def get_queryset(self, request):
