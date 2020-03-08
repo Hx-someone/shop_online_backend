@@ -147,16 +147,28 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class AllOrderGoodsSerialzier(serializers.ModelSerializer):
     # 这里是订单列表信息
-    goods = AllOrderGoodSerializer(many=False)
+    # goods = AllOrderGoodSerializer(many=False)
+    goods  = GoodsSerializer(many=False)
 
     class Meta:
         model = OrderGoods
-        fields = ('goods',)
+        # fields = ('goods',)
+        fields ="__all__"
 
 
 class AllOrderSerializer(serializers.ModelSerializer):
+    # goods = AllOrderGoodsSerialzier(many=True)
+
+    class Meta:
+        model = OrderInfo
+        # fields =('goods','order_mount','user','pay_status','add_time')
+        fields ="__all__"
+
+
+class AllOrderDetailSerializer(serializers.ModelSerializer):
     goods = AllOrderGoodsSerialzier(many=True)
 
     class Meta:
         model = OrderInfo
-        fields =('goods','order_mount','user','add_time')
+        # fields =('goods','order_mount','user','pay_status','add_time')
+        fields ="__all__"

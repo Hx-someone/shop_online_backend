@@ -31,7 +31,8 @@ class AllOrderGoodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goods
-        fields = ('category',)
+        # fields = ('category',)
+        fields = "__all__"
 
 
 class GoodsspecificationSerializer(serializers.ModelSerializer):
