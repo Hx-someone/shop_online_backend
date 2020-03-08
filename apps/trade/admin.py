@@ -14,8 +14,19 @@ class OrderGoodsInline(admin.StackedInline):
 
 
 class OrderInfoAdmin(admin.ModelAdmin):
-    list_display = ['order_sn', 'order_mount', 'operator','pay_status']
+    list_display = ['order_sn', 'order_mount', 'operator','operator_phone','pay_status']
     inlines = (OrderGoodsInline,)
+
+    def save_model(self, request, obj, form, change):
+        if form.is_valid():
+            user = form.save()
+            user.operator_phone = user.operator.mobile
+            user.save()
+        super().save_model(request,obj,form,change)
+
+    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #     if db_field == "operator":
+    #         kwargs[]
 
     # def get_queryset(self, request):
     #     qs = super().get_queryset(request)
@@ -23,24 +34,10 @@ class OrderInfoAdmin(admin.ModelAdmin):
     #         return qs
     #     return qs.filter(operator=request.user)
 
-    # def get_field_queryset(self, db, db_field, request):
-    #     # import ipdb;ipdb;ipdb.set_trace()
-    #     qs = super().get_field_queryset(db, db_field, request)
-    #     if db_field.name == "operator" and request.method == 'GET':
-    #         if not qs:
-    #             qs = models.User.objects.all()
-    #         # 过滤数据，不显示其它APP专用配置
-    #         # kwargs['widget'] = widgets.HiddenInput
-    #         try:
-    #             # APP专用的文件配置
-    #             cf_app = qs.filter(app=request.app_id)
-    #         except Exception:
-    #             print('获取APP(id:%d)专用配置失败!!!' % request.app_id)
-    #             cf_app = models.User.objects.none()
-    #         cf_all = qs.filter(app__isnull=True)  # 所有APP通用的文件配置
-    #         qs = cf_app.union(cf_all)  # 并集
-    #         # print(qs, 888)
-    #     return qs
+    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #     if db_field.name == "operator":
+    #         kwargs["queryset"] = User.objects.filter(user=request.user)
+    #     return super(OrderInfoAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 admin.site.register(OrderInfo, OrderInfoAdmin)
