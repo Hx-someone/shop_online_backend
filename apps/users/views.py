@@ -122,3 +122,22 @@ class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveMode
         return serializer.save()
 
 
+class UserInfo(mixins.ListModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
+    serializer_class = UserDetailSerializer
+    queryset = User.objects.all()
+    authentication_classes = (JSONWebTokenAuthentication,SessionAuthentication )
+
+    def get_queryset(self):
+        """
+            get方法只显示自己的信息
+        :return:
+        """
+        return User.objects.filter(username=self.request.user)
+
+    def get_object(self):
+        """
+            无论参数是什么都只返回自己的信息
+        :return: self.user
+        """
+        return self.request.user
+
