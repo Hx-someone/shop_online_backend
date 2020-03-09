@@ -14,13 +14,16 @@ class OrderGoodsInline(admin.StackedInline):
 
 
 class OrderInfoAdmin(admin.ModelAdmin):
-    list_display = ['order_sn', 'order_mount', 'operator','operator_phone','pay_status']
+    list_display = ['order_sn', 'order_mount', 'operator','operator_phone','takegoods_status','pay_status']
     inlines = (OrderGoodsInline,)
 
     def save_model(self, request, obj, form, change):
         if form.is_valid():
             user = form.save()
-            user.operator_phone = user.operator.mobile
+            if user.operator:
+                user.operator_phone = user.operator.mobile
+            else:
+                return
             user.save()
         super().save_model(request,obj,form,change)
 

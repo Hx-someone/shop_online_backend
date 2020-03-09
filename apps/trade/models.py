@@ -36,11 +36,12 @@ class OrderInfo(models.Model):
         # ("WAIT_BUYER_PAY", "交易创建"),
         ("refunding", "退款申请中"),
         ("fefunding","退款成功，交易结束"),
-        ("Picking","订单商品配货中"),
-        ("checkout","商品正在进行第二次检验"),
-        ("Delivery", "订单商品送货中"),
-        ("trade_evaluate", "交易结束等待评价"),
-        ("TRADE_SUCCESS", "交易结束")
+        ("Picking","订单商品配货中"),  #拣货人员，提取货物给送货人员
+        ("Picking_complete","订单配货完成"),  #拣货人员，提取货物给送货人员
+        ("checkout","商品二次检验完"),  #线下，二次检验等待用户提取
+        ("Delivery", "订单商品送货中"),  #送货人员状态
+        ("trade_evaluate", "交易结束等待评价"),  #交易完成等待评价
+        ("TRADE_SUCCESS", "交易结束")#交易结束
     )
     user = models.ForeignKey(User, verbose_name="用户",on_delete=models.CASCADE)
     order_sn = models.CharField(max_length=30, null=True, blank=True, unique=True, verbose_name="订单号")
