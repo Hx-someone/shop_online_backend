@@ -15,6 +15,7 @@ class OrderGoodsInline(admin.StackedInline):
 
 class OrderInfoAdmin(admin.ModelAdmin):
     list_display = ['order_sn', 'order_mount', 'operator','operator_phone','takegoods_status','pay_status']
+    search_fields = ['takegoods_status','pay_status']
     inlines = (OrderGoodsInline,)
 
     def save_model(self, request, obj, form, change):

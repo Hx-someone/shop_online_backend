@@ -10,6 +10,7 @@ from django.shortcuts import redirect
 from .serializers import *
 from utils.permissions import IsOwnerOrReadOnly
 from .models import ShoppingCart, OrderInfo, OrderGoods
+from users.models import UserProfile
 
 
 class ShoppingCartViewset(viewsets.ModelViewSet):
@@ -128,7 +129,15 @@ class AlipayView(APIView):
         if verify_re is True:
             order_sn = processed_dict.get('out_trade_no', None)
             trade_no = processed_dict.get('trade_no', None)
+            total_amount = processed_dict.get('total_amount',None)
             trade_status = processed_dict.get('trade_status','Picking')
+
+            userprofile = UserProfile.objects.filter(username = self.request.user)
+            for i in range(len(userprofile)):
+                userprofile[i].integral += float(total_amount)
+                userprofile[i].save()
+
+
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
@@ -140,6 +149,7 @@ class AlipayView(APIView):
 
                 existed_order.pay_status = trade_status
                 existed_order.trade_no = trade_no
+                # existed_order.total_amount = total_amount
                 existed_order.pay_time = datetime.now()
                 existed_order.save()
 
@@ -169,6 +179,7 @@ class AlipayView(APIView):
         if verify_re is True:
             order_sn = processed_dict.get('out_trade_no', None)  # 商户网站唯一订单号
             trade_no = processed_dict.get('trade_no', None)  # 支付宝交易流水号
+            # total_amount = processed_dict.get('total_amount',None)    #交易的总额
             trade_status = processed_dict.get('trade_status', 'paying')  # 支付宝订单状态
             # 查询本地是否有此订单
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
@@ -182,6 +193,7 @@ class AlipayView(APIView):
 
                 existed_order.pay_status = trade_status
                 existed_order.trade_no = trade_no
+                # existed_order.total_amount = total_amount
                 existed_order.pay_time = datetime.now()
                 existed_order.save()
 

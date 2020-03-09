@@ -121,3 +121,12 @@ class UserMemberViewSet(mixins.ListModelMixin,mixins.UpdateModelMixin,mixins.Ret
             return []
 
         return []
+
+
+class Integral_calculationSeSerializerViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
+    """
+        积分系统使得用户可以通过积分去换购商品
+    """
+    serializer_class = Integral_calculationSeSerializer
+    queryset = integral_calculation.objects.all()
+    authentication_classes = (JSONWebTokenAuthentication,SessionAuthentication )

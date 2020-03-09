@@ -57,7 +57,7 @@ class Integral_calculationSeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = integral_calculation
-        flelds = "__all__"
+        fields = "__all__"
 
 
 class CommentSerializer(serializers.ModelSerializer):
