@@ -123,7 +123,7 @@ class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveMode
 
 
 class UserInfo(mixins.ListModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
-    serializer_class = UserDetailSerializer
+    serializer_class = UserProfileSerializer
     queryset = User.objects.all()
     authentication_classes = (JSONWebTokenAuthentication,SessionAuthentication )
 
