@@ -1,7 +1,7 @@
 from rest_framework import serializers
 import time
 from goods.models import Goods,Integralgoods
-from .models import ShoppingCart, OrderInfo, OrderGoods,IntegralgoodsCart
+from .models import ShoppingCart, OrderInfo, OrderGoods,IntegralgoodsCart,Orderintergralgoods
 from goods.serializers import GoodsSerializer,IntegralgoodsSerializer
 from utils.alipay import AliPay
 from shop_online_backend.settings import private_key_path, ali_pub_key_path
@@ -16,9 +16,6 @@ class ShopCartDetailSerializer(serializers.ModelSerializer):
 
 
 class ShopCartSerializer(serializers.Serializer):
-    # 这个来书要相对而言麻烦点，使用serializers.ModelSerializer的话，如果再添加一条数据就会报错，因为modelSerializer默认值唯一，不能再去添加数据，所以只能从serializers开始写
-    # create方法就是重写了添加方法。如果商品已经存在商品就+1
-    # update方法是为了商品的数目增加和减少
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
@@ -101,9 +98,18 @@ class OrderGoodsSerialzier(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class OrderIntegralgoodsSerialzier(serializers.ModelSerializer):
+    inter_goods = Integralgoods
+
+    class Meta:
+        model = Orderintergralgoods
+        fields = "__all__"
+
+
 class OrderDetailSerializer(serializers.ModelSerializer):
     # 这个是订单的列表详细信息，每次购买之后的商品都会变成订单，所有订单的所有状态都会显示，并且配置了支付宝的支付地址，支付后的信息才会修改状态为支付成功
     goods = OrderGoodsSerialzier(many=True)
+    intergralgoods = OrderIntegralgoodsSerialzier(many=True)
     alipay_url = serializers.SerializerMethodField(read_only=True)
 
     def get_alipay_url(self, obj):

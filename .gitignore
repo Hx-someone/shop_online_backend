@@ -19,3 +19,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+apps/trade/__pycache__/models.cpython-36.pyc.2000064959056
+*.pyc

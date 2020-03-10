@@ -28,7 +28,6 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     serializer_class = ShopCartSerializer
 
-    # queryset = ShoppingCart.objects.all()
     lookup_field = "goods_id"
 
     def perform_create(self, serializer):
@@ -109,7 +108,8 @@ class OrderViewset(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         order = serializer.save()
-        shop_carts = ShoppingCart.objects.filter(user=self.request.user)
+        shop_carts = ShoppingCart.objects.filter(user=self.request.user)        #取得购物车的商品
+        intergeral_g = IntegralgoodsCart.objects.filter(user=self.request.user) #取得积分表的所有商品
         # 以下字段都是不可以写入
         for shop_cart in shop_carts:
             order_goods = OrderGoods()
@@ -119,6 +119,18 @@ class OrderViewset(viewsets.ModelViewSet):
             order_goods.save()
             # 请求完订单之后删除所有的商品
             shop_cart.delete()
+
+        for inter_good in intergeral_g:
+            res = Orderintergralgoods()
+            res.inter_goods = inter_good.inter_goods
+            res.goods_num = inter_good.goods_num
+            res.order = order
+            res.save()
+
+            res.inter_goods = inter_good
+            # 请求完后删除自己积分的商品
+            inter_good.delete()
+
         return order
 
 
