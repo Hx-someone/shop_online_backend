@@ -2,7 +2,7 @@ from rest_framework import serializers
 import time
 from goods.models import Goods,Integralgoods
 from .models import ShoppingCart, OrderInfo, OrderGoods,IntegralgoodsCart
-from goods.serializers import GoodsSerializer
+from goods.serializers import GoodsSerializer,IntegralgoodsSerializer
 from utils.alipay import AliPay
 from shop_online_backend.settings import private_key_path, ali_pub_key_path
 
@@ -55,7 +55,15 @@ class ShopCartSerializer(serializers.Serializer):
         return instance
 
 
-class IntegralgoodsSerializer(serializers.Serializer):
+class IntegralgoodsCartDetailSerializer(serializers.ModelSerializer):
+    goods = IntegralgoodsSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = IntegralgoodsCart
+        fields = ("id","goods","nums")
+
+
+class IntegralgoodsCartSerializer(serializers.Serializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )

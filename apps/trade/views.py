@@ -62,6 +62,29 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
         return ShoppingCart.objects.filter(user=self.request.user)
 
 
+class IntegralgoodsCartViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    serializer_class = IntegralgoodsCartSerializer
+
+    lookup_field = "goods_id"
+
+    def perform_create(self, serializer):
+        shop_cart = serializer.save()
+        goods = shop_cart.goods
+        goods.goods_num -= shop_cart.nums
+        goods.save()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return IntegralgoodsCartDetailSerializer
+        else:
+            return IntegralgoodsCartSerializer
+
+    def get_queryset(self):
+        return IntegralgoodsCart.objects.filter(user=self.request.user)
+
+
 class OrderViewset(viewsets.ModelViewSet):
     """
         订单管理
