@@ -46,3 +46,13 @@ class GoodsViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.Gene
     search_fields = ['name']
     # 排序的字段
     ordering_fields = ['sold_num','shop_price']
+
+
+class integralgoodsViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+    """"
+        list:
+            显示所有的积分商品信息
+    """
+    queryset = integralgoods.objects.all()
+    serializer_class = integralgoodsSerializer
+    pagination_class = GoodsPagination

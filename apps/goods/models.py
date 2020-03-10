@@ -69,6 +69,25 @@ class Goods(models.Model):
         return self.name
 
 
+class integralgoods(models.Model):
+    """
+        积分换购商品
+    """
+    name = models.CharField(max_length=100, verbose_name="商品名")
+    image = models.ImageField(upload_to="goods/integralgoods/", verbose_name="图片", null=True, blank=True)
+    specification = models.CharField(max_length=100,verbose_name='商品的规格')
+    goods_num = models.IntegerField(default=100, verbose_name="库存数")
+    integral = models.CharField(max_length=100,verbose_name='需要的积分')
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+
+    class Meta:
+        verbose_name = '积分商品'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+
 class GoodsImage(models.Model):
     """
     商品轮播图

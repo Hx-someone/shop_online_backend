@@ -36,6 +36,11 @@ class GoodsAdmin(admin.ModelAdmin):
     inlines = (GoodImageInline,Goodsspecification,CommentAdmin)
 
 
+class integralgoodsAdmin(admin.ModelAdmin):
+    list_display = ['name','image','specification','integral','goods_num']
+
+
 admin.site.register(Goods,GoodsAdmin)
 admin.site.register(BannerIndex)
 admin.site.register(GoodsCategoryBrand)
+admin.site.register(integralgoods,integralgoodsAdmin)
