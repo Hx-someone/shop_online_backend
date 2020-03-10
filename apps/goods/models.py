@@ -69,7 +69,7 @@ class Goods(models.Model):
         return self.name
 
 
-class integralgoods(models.Model):
+class Integralgoods(models.Model):
     """
         积分换购商品
     """

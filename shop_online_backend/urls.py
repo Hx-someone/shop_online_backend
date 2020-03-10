@@ -43,7 +43,6 @@ router.register(r'shopcarts', ShoppingCartViewset, base_name="shopcarts")
 router.register(r'orders', OrderViewset, base_name="orders")
 router.register(r'common',CommonSet,base_name="common")
 router.register(r'member',UserMemberViewSet,base_name='member')
-# router.register(r'Integral_calculation',Integral_calculationSeSerializerViewSet,base_name="Integral_calculation")
 router.register(r'alluser',UserProfileViewset,base_name="alluser")
 router.register(r'allorder',AllOrderViewSets,base_name='allorder')
 

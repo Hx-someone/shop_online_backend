@@ -1,11 +1,11 @@
 from rest_framework import serializers
 import time
-from goods.models import Goods
-from .models import ShoppingCart, OrderInfo, OrderGoods
+from goods.models import Goods,Integralgoods
+from .models import ShoppingCart, OrderInfo, OrderGoods,IntegralgoodsCart
 from goods.serializers import GoodsSerializer
 from utils.alipay import AliPay
 from shop_online_backend.settings import private_key_path, ali_pub_key_path
-from goods.serializers import AllOrderGoodSerializer
+
 
 class ShopCartDetailSerializer(serializers.ModelSerializer):
     goods = GoodsSerializer(many=False, read_only=True)
@@ -29,7 +29,6 @@ class ShopCartSerializer(serializers.Serializer):
                                     })
 
     goods = serializers.PrimaryKeyRelatedField(required=True, queryset=Goods.objects.all())
-    # selected = serializers.BooleanField(required=True)
 
     def create(self, validated_data):
         user = self.context["request"].user
@@ -54,6 +53,35 @@ class ShopCartSerializer(serializers.Serializer):
         # instance.selected = validated_data['selected']
         instance.save()
         return instance
+
+
+class IntegralgoodsSerializer(serializers.Serializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    nums = serializers.IntegerField(required=True, label="数量", min_value=1,
+                                    error_messages={
+                                        "min_value": "商品数量不能小于一",
+                                        "required": "请选择购买数量"
+                                    })
+
+    goods = serializers.PrimaryKeyRelatedField(required=True, queryset=Integralgoods.objects.all())
+
+    def create(self, validated_data):
+        user = self.context["request"].user
+        nums = validated_data["nums"]
+        goods = validated_data["goods"]
+
+        existed = IntegralgoodsCart.objects.filter(user=user, goods=goods)
+
+        if existed:
+            existed = existed[0]
+            existed.nums += nums
+            existed.save()
+        else:
+            existed = IntegralgoodsCart.objects.create(**validated_data)
+
+        return existed
 
 
 class OrderGoodsSerialzier(serializers.ModelSerializer):
@@ -148,7 +176,7 @@ class OrderSerializer(serializers.ModelSerializer):
 class AllOrderGoodsSerialzier(serializers.ModelSerializer):
     # 这里是订单列表信息
     # goods = AllOrderGoodSerializer(many=False)
-    goods  = GoodsSerializer(many=False)
+    goods = GoodsSerializer(many=False)
 
     class Meta:
         model = OrderGoods

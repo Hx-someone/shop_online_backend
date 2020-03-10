@@ -53,6 +53,6 @@ class integralgoodsViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
         list:
             显示所有的积分商品信息
     """
-    queryset = integralgoods.objects.all()
-    serializer_class = integralgoodsSerializer
+    queryset = Integralgoods.objects.all()
+    serializer_class = IntegralgoodsSerializer
     pagination_class = GoodsPagination

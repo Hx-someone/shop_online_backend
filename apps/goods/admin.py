@@ -43,4 +43,4 @@ class integralgoodsAdmin(admin.ModelAdmin):
 admin.site.register(Goods,GoodsAdmin)
 admin.site.register(BannerIndex)
 admin.site.register(GoodsCategoryBrand)
-admin.site.register(integralgoods,integralgoodsAdmin)
+admin.site.register(Integralgoods,integralgoodsAdmin)

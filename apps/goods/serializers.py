@@ -35,12 +35,12 @@ class AllOrderGoodSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class integralgoodsSerializer(serializers.ModelSerializer):
+class IntegralgoodsSerializer(serializers.ModelSerializer):
     """
         积分商品
     """
     class Meta:
-        model = integralgoods
+        model = Integralgoods
         fields ="__all__"
 
 
