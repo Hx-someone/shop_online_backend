@@ -122,12 +122,10 @@ class OrderViewset(viewsets.ModelViewSet):
 
         for inter_good in intergeral_g:
             res = Orderintergralgoods()
-            res.inter_goods = inter_good.inter_goods
-            res.goods_num = inter_good.goods_num
+            res.inter_goods = inter_good.goods
+            res.goods_num = inter_good.nums
             res.order = order
             res.save()
-
-            res.inter_goods = inter_good
             # 请求完后删除自己积分的商品
             inter_good.delete()
 

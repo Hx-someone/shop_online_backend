@@ -99,7 +99,7 @@ class OrderGoodsSerialzier(serializers.ModelSerializer):
 
 
 class OrderIntegralgoodsSerialzier(serializers.ModelSerializer):
-    inter_goods = Integralgoods
+    inter_goods = IntegralgoodsSerializer(many=False)
 
     class Meta:
         model = Orderintergralgoods
