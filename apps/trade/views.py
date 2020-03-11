@@ -14,7 +14,6 @@ from users.models import UserProfile
 
 
 class ShoppingCartViewset(viewsets.ModelViewSet):
-    # 这个也没什么好讲的，permission_classes里面的两个字段是确定每个人的购物车信息只能由自己修改
     """
     购物车功能
     list:
@@ -33,7 +32,8 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         shop_cart = serializer.save()
         goods = shop_cart.goods
-        goods.goods_num -= shop_cart.nums
+        # goods.goods_num -= shop_cart.nums
+        goods.goods_num -= 1
         goods.save()
 
     def perform_destroy(self, instance):
@@ -71,7 +71,24 @@ class IntegralgoodsCartViewset(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         shop_cart = serializer.save()
         goods = shop_cart.goods
-        goods.goods_num -= shop_cart.nums
+        # goods.goods_num -= shop_cart.nums
+        # 这里是有个bug，因为每次减少都减少了序列化后的库存，而不是用户选择的库存
+        goods.goods_num -= 1
+        goods.save()
+
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.goods_num += instance.nums
+        goods.save()
+        instance.delete()
+
+    def perform_update(self, serializer):
+        existed_record = IntegralgoodsCart.objects.get(id=serializer.instance.id)
+        existed_nums = existed_record.nums
+        saved_record = serializer.save()
+        nums = saved_record.nums-existed_nums
+        goods = saved_record.goods
+        goods.goods_num += nums
         goods.save()
 
     def get_serializer_class(self):
@@ -120,6 +137,7 @@ class OrderViewset(viewsets.ModelViewSet):
             # 请求完订单之后删除所有的商品
             shop_cart.delete()
 
+        #这里积分商品的操作，
         for inter_good in intergeral_g:
             res = Orderintergralgoods()
             res.inter_goods = inter_good.goods

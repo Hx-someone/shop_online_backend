@@ -97,7 +97,6 @@ class OrderGoods(models.Model):
     goods = models.ForeignKey(Goods, verbose_name="商品",on_delete=models.CASCADE)
     # inter_goods = models.ForeignKey(Integralgoods,verbose_name='积分商品',on_delete=models.CASCADE)
     goods_num = models.IntegerField(default=0, verbose_name="商品数量")
-
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:

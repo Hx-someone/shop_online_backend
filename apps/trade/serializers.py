@@ -188,13 +188,18 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class AllOrderGoodsSerialzier(serializers.ModelSerializer):
-    # 这里是订单列表信息
-    # goods = AllOrderGoodSerializer(many=False)
     goods = GoodsSerializer(many=False)
 
     class Meta:
         model = OrderGoods
-        # fields = ('goods',)
+        fields ="__all__"
+
+
+class AllIntegralGoodsSerialzier(serializers.ModelSerializer):
+    inter_goods = IntegralgoodsSerializer(many=False)
+
+    class Meta:
+        model = Orderintergralgoods
         fields ="__all__"
 
 
@@ -209,6 +214,7 @@ class AllOrderSerializer(serializers.ModelSerializer):
 
 class AllOrderDetailSerializer(serializers.ModelSerializer):
     goods = AllOrderGoodsSerialzier(many=True)
+    intergralgoods = AllIntegralGoodsSerialzier(many=True)
 
     class Meta:
         model = OrderInfo

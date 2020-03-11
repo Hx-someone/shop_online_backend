@@ -23,7 +23,6 @@ class AllOrderViewSets(mixins.ListModelMixin,mixins.RetrieveModelMixin,mixins.Up
         return AllOrderSerializer
 
 
-
 class UserProfileViewset(mixins.ListModelMixin,viewsets.GenericViewSet):
     """
     这个是获取所有的用户信息，所以不用增加任何权限
