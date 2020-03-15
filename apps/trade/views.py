@@ -154,7 +154,7 @@ from rest_framework.views import APIView
 from utils.alipay import AliPay
 from shop_online_backend.settings import ali_pub_key_path, private_key_path
 from rest_framework.response import Response
-from django.shortcuts import  redirect, HttpResponse
+from django.shortcuts import  HttpResponse
 from django.http import HttpResponseRedirect
 
 
