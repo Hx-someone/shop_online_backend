@@ -60,3 +60,4 @@ class OrderInfoAdmin(admin.ModelAdmin):
 
 admin.site.register(OrderInfo, OrderInfoAdmin)
 admin.site.register(IntegralgoodsCart)
+admin.site.register(ExtractCode)
