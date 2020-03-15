@@ -16,6 +16,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
     """
     这个是序列化用户的表
     """
+    username = serializers.CharField(read_only=True)
+    is_staff = serializers.BooleanField(read_only=True)
+
     class Meta:
         model = UserProfile
         fields = ('id','member_status','mobile','username','integral','gender','is_staff','role','avatar','name')
@@ -50,8 +53,8 @@ class SmsSerializer(serializers.Serializer):
         """
 
         # 手机是否注册
-        if User.objects.filter(mobile=mobile).count():
-            raise serializers.ValidationError("用户已经存在")
+        # if User.objects.filter(mobile=mobile).count():
+        #     raise serializers.ValidationError("用户已经存在")
 
         # 验证手机号码是否合法
         if not re.match(REGEX_MOBILE, mobile):
@@ -125,5 +128,4 @@ class UserRegSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "code", "mobile", "password")
-
 
