@@ -9,7 +9,7 @@ class UserProfile(AbstractUser):
         用户表，是继承Django默认的user表，再做出修改
     """
     status = (('primary','初级会员'),('senior','高级会员'))
-    role_status=(('ordinary_user','普通用户'),('order_distributor','订单分配员'),('shop_inspector','超市自提商品管理员'),('manager','后台管理员'),('boss','超级管理员'))
+    role_status=(('ordinary_user','普通用户'),('order_distributor','订单分配员'),('picker','商品拣货员'),('delivery','送货员'),('shop_inspector','超市自提商品管理员'),('manager','后台管理员'),('boss','超级管理员'))
     name=models.CharField(max_length=30,null=True,blank=True,verbose_name="昵称")
     avatar = models.ImageField(upload_to="avatar/",default='avatar/default.png', blank=True, null=True)
     member_status = models.CharField(max_length=30,choices=status,default='primary',verbose_name="会员等级")

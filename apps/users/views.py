@@ -27,9 +27,10 @@ class CustomBackend(ModelBackend):
     """
     自定义用户验证
     """
+
     def authenticate(self, username=None, password=None, **kwargs):
         try:
-            user = User.objects.get(Q(username=username)|Q(mobile=username))
+            user = User.objects.get(Q(username=username) | Q(mobile=username))
             if user.check_password(password):
                 return user
         except Exception as e:
@@ -68,13 +69,13 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
 
         if sms_status["code"] != 0:
             return Response({
-                "mobile":sms_status["msg"]
+                "mobile": sms_status["msg"]
             }, status=status.HTTP_400_BAD_REQUEST)
         else:
             code_record = VerifyCode(code=code, mobile=mobile)
             code_record.save()
             return Response({
-                "mobile":mobile
+                "mobile": mobile
             }, status=status.HTTP_201_CREATED)
 
 
@@ -84,7 +85,7 @@ class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveMode
     """
     serializer_class = UserRegSerializer
     queryset = User.objects.all()
-    authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication )
+    authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -122,10 +123,10 @@ class UserViewset(CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveMode
         return serializer.save()
 
 
-class UserInfo(mixins.ListModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
+class UserInfo(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     serializer_class = UserProfileSerializer
     queryset = User.objects.all()
-    authentication_classes = (JSONWebTokenAuthentication,SessionAuthentication )
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
 
     def get_queryset(self):
         """
@@ -140,4 +141,3 @@ class UserInfo(mixins.ListModelMixin,mixins.RetrieveModelMixin,mixins.UpdateMode
         :return: self.user
         """
         return self.request.user
-

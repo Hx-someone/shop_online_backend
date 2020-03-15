@@ -6,10 +6,15 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework import mixins
 from django.shortcuts import redirect
-
+from random import choice
+from rest_framework.mixins import CreateModelMixin
+from rest_framework.response import Response
+from rest_framework import status
+from utils.yunpian import YunPian
+from shop_online_backend.settings import APIKEY
 from .serializers import *
 from utils.permissions import IsOwnerOrReadOnly
-from .models import ShoppingCart, OrderInfo, OrderGoods
+from .models import ShoppingCart, OrderInfo, OrderGoods,ExtractCode
 from users.models import UserProfile
 
 
@@ -149,6 +154,44 @@ class OrderViewset(viewsets.ModelViewSet):
 
         return order
 
+
+class Sendextractnumber(CreateModelMixin, viewsets.GenericViewSet):
+    serializer_class = ExtractSerializer
+
+    def generate_code(self):
+        """
+        生成四位数字的验证码
+        :return:
+        """
+        seeds = "1234567890"
+        random_str = []
+        for i in range(4):
+            random_str.append(choice(seeds))
+
+        return "".join(random_str)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        mobile = serializer.validated_data["mobile"]
+
+        yun_pian = YunPian(APIKEY)
+
+        code = self.generate_code()
+
+        sms_status = yun_pian.send_sms(code=code, mobile=mobile)
+
+        if sms_status["code"] != 0:
+            return Response({
+                "mobile": sms_status["msg"]
+            }, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            code_record = ExtractCode(code=code, mobile=mobile)
+            code_record.save()
+            return Response({
+                "mobile": mobile
+            }, status=status.HTTP_201_CREATED)
 
 from rest_framework.views import APIView
 from utils.alipay import AliPay

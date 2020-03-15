@@ -1,5 +1,7 @@
 from rest_framework import serializers
 import time
+import re
+from shop_online_backend.settings import REGEX_MOBILE
 from goods.models import Goods,Integralgoods
 from .models import ShoppingCart, OrderInfo, OrderGoods,IntegralgoodsCart,Orderintergralgoods
 from goods.serializers import GoodsSerializer,IntegralgoodsSerializer
@@ -147,7 +149,8 @@ class OrderSerializer(serializers.ModelSerializer):
     pay_time = serializers.DateTimeField(read_only=True)
     alipay_url = serializers.SerializerMethodField(read_only=True)
     # operator = serializers.CharField(read_only=True)
-    add_time = serializers.CharField(read_only=True)
+    add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
+
 
     def get_alipay_url(self, obj):
         alipay = AliPay(
@@ -220,3 +223,22 @@ class AllOrderDetailSerializer(serializers.ModelSerializer):
         model = OrderInfo
         # fields =('goods','order_mount','user','pay_status','add_time')
         fields ="__all__"
+
+
+class ExtractSerializer(serializers.Serializer):
+    """
+        这里是简单的发送提取码，只需要发送功能
+    """
+    mobile = serializers.CharField(max_length=11)
+
+    def validate_mobile(self, mobile):
+        """
+        验证手机号码
+        :param data:
+        :return:
+        """
+        # 验证手机号码是否合法
+        if not re.match(REGEX_MOBILE, mobile):
+            raise serializers.ValidationError("手机号码非法")
+
+        return mobile
