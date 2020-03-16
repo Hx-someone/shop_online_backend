@@ -56,7 +56,8 @@ class OrderInfo(models.Model):
         ("Picking","订单商品配货中"),  #拣货人员，提取货物给送货人员
         ("Picking_complete","订单配货完成"),  #拣货人员，提取货物给送货人员
         ("checkout","商品二次检验完"),  #线下，二次检验等待用户提取
-        ("Delivery", "订单商品送货中"),  #送货人员状态
+        ("Delivery", "等待送货员提取商品"),  #送货人员状态
+        ("Deliverying", "订单商品送货中"),  #送货人员状态
         ("trade_evaluate", "交易结束等待评价"),  #交易完成等待评价
         ("TRADE_SUCCESS", "交易结束")#交易结束
     )
@@ -74,9 +75,14 @@ class OrderInfo(models.Model):
     picker = models.CharField(max_length=20, default="", verbose_name="订单拣货人",null=True,blank=True)
     inspecter = models.CharField(max_length=20, default="", verbose_name="订单二次拣货人",null=True,blank=True)
     distributor = models.CharField(max_length=20, default="", verbose_name="订单分配员",null=True,blank=True)
-    singer_mobile = models.CharField(max_length=11, verbose_name="联系电话",blank=True)
     deliveryman = models.CharField(verbose_name="订单配送人员",default='',null=True,blank=True,max_length=15)
     deliveryman_phone = models.CharField(max_length=11,default='',null=True,blank=True,verbose_name='配送人员手机号')
+    picker_time= models.CharField(max_length=100,default='',verbose_name='订单拣货时间',blank=True,null=True)
+    inspecter_time= models.CharField(max_length=100,default='',verbose_name='订单二次验货时间',blank=True,null=True)
+    distributor_time= models.CharField(max_length=100,default='',verbose_name='订单分配时间',blank=True,null=True)
+    delivery_time =  models.CharField(max_length=100,default='',verbose_name='订单配送时间',blank=True,null=True)
+    success_time = models.CharField(max_length=100,default='',verbose_name='交易完成时间',blank=True,null=True)
+    singer_mobile = models.CharField(max_length=11, verbose_name="联系电话",blank=True)
     isdoubt = models.BooleanField(default=False,verbose_name='是否为有疑问订单')
     remarks= models.CharField(max_length=100,default='',null=True,blank=True,verbose_name='订单配送备注')
     doubttext = models.CharField(max_length=150,default='',null=True,blank=True,verbose_name='订单疑问原因')
