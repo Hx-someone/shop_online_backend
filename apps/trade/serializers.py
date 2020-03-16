@@ -148,7 +148,6 @@ class OrderSerializer(serializers.ModelSerializer):
     order_sn = serializers.CharField(read_only=True)
     pay_time = serializers.DateTimeField(read_only=True)
     alipay_url = serializers.SerializerMethodField(read_only=True)
-    # operator = serializers.CharField(read_only=True)
     add_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M')
 
 
