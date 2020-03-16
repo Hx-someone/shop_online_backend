@@ -47,6 +47,8 @@ router.register(r'common',CommonSet,base_name="common")
 router.register(r'member',UserMemberViewSet,base_name='member')
 router.register(r'alluser',UserProfileViewset,base_name="alluser")
 router.register(r'allorder',AllOrderViewSets,base_name='allorder')
+router.register(r'PCVisit',PCVisitNumberViewSets,base_name='PCVisit')
+router.register(r'MobileVisit',MobileVisitNumberViewSets,base_name='MobileVisit')
 
 
 urlpatterns = [

@@ -77,6 +77,8 @@ class OrderInfo(models.Model):
     singer_mobile = models.CharField(max_length=11, verbose_name="联系电话",blank=True)
     operator = models.ForeignKey(User,verbose_name="订单配送人员",on_delete=True,related_name='operator',default='',null=True,blank=True)
     operator_phone = models.CharField(max_length=11,default='',null=True,blank=True,verbose_name='配送人员手机号')
+    isdoubt = models.BooleanField(default=False,verbose_name='是否为有疑问订单')
+    doubttext = models.CharField(max_length=150,default='',null=True,blank=True,verbose_name='订单疑问原因')
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:

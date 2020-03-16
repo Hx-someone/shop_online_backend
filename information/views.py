@@ -7,6 +7,8 @@ from users.serializers import UserProfileSerializer
 from user_operation.models import User
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication
+from .models import *
+from .serializers import *
 
 
 # Create your views here.
@@ -32,3 +34,13 @@ class UserProfileViewset(mixins.ListModelMixin,viewsets.GenericViewSet):
     serializer_class = UserProfileSerializer
     queryset = User.objects.all()
     authentication_classes = (JSONWebTokenAuthentication,SessionAuthentication )
+
+
+class PCVisitNumberViewSets(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+    queryset = PCVisitNumber.objects.all()
+    serializer_class = PCVisitNumberSerializers
+
+
+class MobileVisitNumberViewSets(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+    queryset = MobileVisitNumber.objects.all()
+    serializer_class = MobileVisitNumberSerializers
